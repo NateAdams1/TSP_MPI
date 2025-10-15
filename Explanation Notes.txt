@@ -1,0 +1,10 @@
+ This project is to take a brute force approach to the Traveling Salesman Problem (TSP) and show how parallelization works with it. There will be a single script that will have a couple functions that run emabrassingly parallel with MPI in order to compute the TSP over the course of a set time. When this problem gets run for that time, it will be analyzed against what has been computed before to see what can be optomized and what has been optoized in this problem.
+
+The first thing is to explain how this will run. It is an embarrasingly parallel problem, since every city can search for a minimal path without needing to rely on other computations.
+
+Q's from Jake after the proposal:
+    I found myself looking for more clarity about your approach to parallelization. For instance, when parallelizing the TSP, do you intend to have each node find a shortest path given a given starting city? This approach would be embarrassingly parallel as described. Then are you collecting the resulting distances on the root rank for comparison to determine the best?  You could also explore multiple paths from a starting partial path in parallel. I just wasn’t quite clear which approach you were taking from your description.
+    I agree with you about using some kind of system for load balancing. This would help keep all the ranks busy, so when one finishes it gets assigned a different task.
+    You noted this already, but HPC will only get you so far for this problem. You could also potentially explore heuristic approximate solutions to the TSP in parallel if you wanted to tackle larger problem sizes.
+    I know you mentioned familiarity with Hellgate. Are you thinking about using it for this project?
+    Checkpointing is also a good idea! How frequently are you going to checkpoint?

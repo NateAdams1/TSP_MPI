@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\documentclass[12pt]{amsart}
+\documentclass[12pt]{report}
+\documentclass[12pt]{book}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage[T1]{fontec}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{minted}
+% must use pdflatex -shell-escape file.tex if you want code not to execute
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corolarry}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newtcolorbox{thebox}{
+	colback=blue!5!white,
+	colframe=blue!75!black,
+	boxrule=0.8pt,
+	arc=4pt,
+	left=6pt, right=6pt,
+	top=6pt, bottom=6pt
+}
+
+\begin{document}
+
+Text
+
+\end{document}

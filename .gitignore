@@ -1,0 +1,7 @@
+ProjectProposal/
+"Explanation Notes.txt"
+
+*.log
+*.tmp
+*.bak
+*.env
