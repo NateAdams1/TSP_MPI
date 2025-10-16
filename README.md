@@ -9,8 +9,6 @@ There are two scripts, one being a serial python script using Numpy and H5PY to 
 ## How to run
 To run the serial version, you will need to create a python environment and install numpy and h5py then run the code in that environment.
 ```
-Code Goes here
-```
 git clone https://github.com/NateAdams1/TSP_MPI.git
 
 cd TSP_MPI
@@ -21,6 +19,8 @@ python3 TSP.py
 
 -For Windows
 python TSP.py
+```
+
 ```
 code goes here
 ```
