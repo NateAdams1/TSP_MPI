@@ -8,5 +8,19 @@ There are two scripts, one being a serial python script using Numpy and H5PY to 
 
 ## How to run
 To run the serial version, you will need to create a python environment and install numpy and h5py then run the code in that environment.
+```
+Code Goes here
+```
+git clone https://github.com/NateAdams1/TSP_MPI.git
 
-To run the parallel version, you will either want to run it on a HPC cluster, or setup a MPI environment to run the code.
+cd TSP_MPI
+cd script
+
+-For Mac / Linux
+python3 TSP.py
+
+-For Windows
+python TSP.py
+```
+code goes here
+```
