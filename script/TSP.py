@@ -1,34 +1,84 @@
-'''
-This program is a serial version of the Traveling Salesman Problem. This is computed by setting a set of incrementing nodes as cities, and randomply placing them on a plane spaced apart, they then will have connections to every other city in this plane, and the shortest distance between them will be the most optimal. This optimal will be computed from each city as the TSP is done. This then will be repeated until a certain node count is reached. This will only be using numpy to create random places on a map and have things be similar to the parallel version.
-'''
+"""
+This program is a serial version of the Traveling Salesman Problem (TSP).
+It generates a set of cities placed randomly on a 2D plane and computes the
+shortest path visiting all cities exactly once and returning to the start.
+The algorithm runs recursively and computes the optimal path for each city
+count in a user-specified range. Results are stored in an HDF5 file.
+"""
+
 import numpy as np
+import time
+import h5py
 
 class SerialTSP:
+    #Setup global function variables
     def __init__(self, nodes):
         self.nodes = nodes
         self.TSPGraph = None
+        self.best_distance = float('inf')
+        self.best_path = None
 
+    #creates graph of input nodes in a plane between points 10,000 and 100,000
     def CreateGraph(self):
-        #Creates a plane with n nodes placed randomly between 10 and 1000 on the graph
-        self.TSPGraph = np.random.uniform(10, 1000, (self.nodes, 2)).astype(int)
-        return(print(self.TSPGraph))
+        self.TSPGraph = np.random.uniform(10000, 100000, (self.nodes, 2))
+        return self.TSPGraph
 
+    #Calculates distance between each node
+    def distance(self, i, j):
+        return np.linalg.norm(self.TSPGraph[i] - self.TSPGraph[j])
+
+    #Recursively calculates each node distance and finds the shortest path
+    def RecursiveTSP(self, current, visited, dist):
+        if len(visited) == self.nodes:
+            total = dist + self.distance(current, 0)  # return to start
+            if total < self.best_distance: #if total distance is shorter than best found, update best_diastance
+                self.best_distance = total
+                self.best_path = visited + [0]
+            return
+
+        for next_city in range(self.nodes):
+            if next_city not in visited: #skips over visited citites
+                self.RecursiveTSP( #recursive call
+                    next_city,
+                    visited + [next_city],
+                    dist + self.distance(current, next_city) #updates total distance
+                )
+
+    #Runs the recursive step and times it
     def ComputeGraph(self):
-        #for length of nodes, calculate distance from current node to all other nodes and back, find best travel then increment
-        for i in range(self.nodes):
-            diffs = self.TSPGraph - self.TSPGraph[i]
-            print(diffs)
+        start_time = time.time()
+        self.RecursiveTSP(0, [0], 0)
+        elapsed = time.time() - start_time
+        return self.best_path, self.best_distance, elapsed
 
-        #Build logic to find optimal path using diff, start at 0,0 then go to all other nodes and back for all diffs.
-        for j in range(self.nodes):
-            #compute distance from one node to the others and back, have to use trig btw
-        
-        return
 
 def main():
-    tsp = SerialTSP(5)
-    tsp.CreateGraph()
-    tsp.ComputeGraph()
+    #Asks for range of cities
+    user_input = input("Enter range of cities (e.g. 3-7): ").strip()
+    if "-" in user_input:
+        start, end = map(int, user_input.split("-"))
+        n_values = range(start, end + 1)
+    else:
+        n_values = [int(user_input)]
+
+    # --- Create HDF5 file ---
+    with h5py.File("tsp_serial_results.h5", "w") as f:
+        for n in n_values:
+            print(f"\nRunning TSP for {n} cities...")
+            tsp = SerialTSP(n)
+            tsp.CreateGraph()
+            path, distance, elapsed = tsp.ComputeGraph()
+
+            # Save results in HDF5
+            grp = f.create_group(f"n_{n}")
+            grp.create_dataset("path", data=path)
+            grp.create_dataset("distance", data=[distance])
+            grp.create_dataset("time_seconds", data=[elapsed])
+
+            print(f"Shortest distance: {distance:.2f}")
+            print(f"Execution time: {elapsed:.4f} seconds")
+
+    print("\nResults saved to tsp_serial_results.h5")
 
 if __name__ == "__main__":
     main()
