@@ -4,23 +4,95 @@ This Program is a Brute Force Approach to the [Traveling Salesman Problem](https
 The project assignment will also be added to display any specifics for the code.
 
 ## Code
-There are two scripts, one being a serial python script using Numpy and H5PY to have a baseline for the script, and as part as the assignment requirement. There is also a parallel version of the script in python using Numpy, MPI4PY, and H5PY for output.
-
+This Code has 2 scripts, the first one is a serial version of the code, this runs python with numpy and exports to a hdf5 file. The second is a parallel script that runs python using numpy, mpi, and exports to a hdf5 file.
 ## How to run
-To run the serial version, you will need to create a python environment and install numpy and h5py then run the code in that environment.
+### To run the serial version, you will need to create a python environment and install numpy and h5py then run the code in that environment.
+
 ```
+First you will need to clone this project, then enter to the directory of the script.
+
 git clone https://github.com/NateAdams1/TSP_MPI.git
 
 cd TSP_MPI
 cd script
 
 -For Mac / Linux
-python3 TSP.py
+python3 -m venv venv
 
 -For Windows
-python TSP.py
+python -m venv venv
+
+-This creates a Virtual Environment, from here you will need to activate the environment
+
+-For Mac / Linux
+source venv/bin/activate
+
+-For Windows
+venv\Scripts\activate
+
+-Now we will need to install required packages
+
+pip install numpy h5py
+
+-Then you can run the script with
+
+python tsp_serial.py
+
+-Deactivate the environment when done
+
+deactivate 
 ```
 
+### In order to run the parallel version, you will need access to a device or cluster that can run a conda envrionment
+
 ```
-code goes here
+-First you will need to login to your cluster, or go to a working directory in your MPI worker (Scratch on most clusters)
+
+ssh login@cluster.edu
+
+-Now you will need to navigate to your scratch directory, this differs by cluster but would look like this
+
+cd /path/to/scratch/user
+
+-From here, you can clone by using slurm resources, or sftp, I am going to show using slumr resources with LMOD / modules
+
+module spider git
+#This will show available git modules
+
+module load git/version
+
+salloc --nodes=1 --time=1:00:00
+#requests a interactive session for one hour on a node
+
+git clone https://github.com/NateAdams1/TSP_MPI.git
+
+-This should clone the github repository, then you will need to navigate to the scripts folder
+
+cd TSP_MPI
+
+cd script
+
+-Here will be found the TSP_MPI.sh file to be run, if you go into the file, the ntasks will be the number of nodes created, it is set to 20 but change that as needed
+
+sbatch TSP_MPI.sh
+
+-This will create a slurm job, you can watch that job update with
+
+watch squeue --me
+```
+
+### In order to view the .h5 file you can either run the read_h5.py or use h5dump
+
+```
+-If you use 
+
+h5dump
+
+-it will produce a somewhat legible version of the file, or you can navigate to the main directory and run the python file
+
+cd TSP_MPI
+
+-using the previous steps to activate the virtual environment, you just do
+
+read_h5.py
 ```
