@@ -53,7 +53,7 @@ def main():
     rank = comm.Get_rank()
     size = comm.Get_size()
 
-    # --- Read max_n from command-line ---
+    #Takes n input from system
     if len(sys.argv) > 1:
         max_n = int(sys.argv[1])
     else:
@@ -61,7 +61,7 @@ def main():
 
     all_n = range(1, max_n + 1)
 
-    # --- Split work across ranks ---
+    # splits work accross ranks (embarrassingly parallel)
     n_values = list(all_n[rank::size])
 
     results = []
@@ -73,7 +73,7 @@ def main():
         results.append((n, path, distance, elapsed))
         print(f"Rank {rank} finished n={n}: distance={distance:.2f}, time={elapsed:.4f}s")
 
-    # --- Gather results at rank 0 ---
+    # Gathers work
     if rank == 0:
         all_results = results
         for r in range(1, size):

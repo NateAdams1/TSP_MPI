@@ -1,3 +1,0 @@
-           1484984  cpu(all) tsp_seri na193353  R       0:03      1 hgcpu3-6
-           1484983  cpu(all)  TSP-MPI na193353  R      10:30      3 hgcpu3-[2-4]
-
