@@ -92,6 +92,8 @@ h5dump
 
 cd TSP_MPI
 
+cd script
+
 -using the previous steps to activate the virtual environment, you just do
 
 read_h5.py
