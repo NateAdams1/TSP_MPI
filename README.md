@@ -1,10 +1,10 @@
 # Traveling Salesman Problem
 
 This Program is a Brute Force Approach to the [Traveling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem). Although there exists better versions of this program done by [Concorde](https://www.math.uwaterloo.ca/tsp/concorde.html), I used this to learn MPI and also understand TSP. There will be a regular serial version of this code, and a parallel version with MPI. This was done at the University of Montana for CSCI 491 Special Topics - HPC with Jacob Downs and run on The University of Montana Hellgate Cluster. 
-The project assignment will also be added to display any specifics for the code.
 
 ## Code
 This Code has 2 scripts, the first one is a serial version of the code, this runs python with numpy and exports to a hdf5 file. The second is a parallel script that runs python using numpy, mpi, and exports to a hdf5 file.
+This Parallel code is written embarrassingly Parallel, which from running this code, takes too many resources for the script to run, because of that, I will also create a True Parallel script soon.
 ## How to run
 ### To run the serial version, you will need to create a python environment and install numpy and h5py then run the code in that environment.
 
